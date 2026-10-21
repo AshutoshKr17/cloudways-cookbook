@@ -358,7 +358,7 @@ function buildToc(sec){tocUl.innerHTML='';tocLinks=[];if(!sec){toc.classList.rem
 function onScroll(){var y=window.scrollY,h=document.documentElement.scrollHeight-innerHeight;$('#prog').style.width=(h>0?y/h*100:0)+'%';
  var ref=y+innerHeight*.3,cur=-1;secs.forEach(function(s,i){if(s&&s.offsetTop<=ref)cur=i});
  links.forEach(function(l,i){l.classList.toggle('on',i===cur)});
- var sec=cur>=0?secs[cur]:null;if(sec!==curSec){curSec=sec;buildToc(sec);var on=$('nav.menu a.on');if(on&&on.scrollIntoView)on.scrollIntoView({inline:'center',block:'nearest'})}
+ var sec=cur>=0?secs[cur]:null;if(sec!==curSec){curSec=sec;buildToc(sec);var menu=$('nav.menu'),on=$('a.on',menu);if(menu&&on){var left=on.offsetLeft-menu.clientWidth/2+on.clientWidth/2;menu.scrollTo({left:Math.max(0,left),behavior:'auto'})}}
  var act=null;tocLinks.forEach(function(p){if(p[1].getBoundingClientRect().top<innerHeight*.35)act=p[0]});tocLinks.forEach(function(p){p[0].classList.toggle('on',p[0]===act)})}
 addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 })();
