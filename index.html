@@ -1,0 +1,509 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cloudways Cookbook</title>
+<style>
+:root{color-scheme:light;--ink:#1c2430;--mut:#5b6677;--line:#e3e8ef;--acc:#2a5bd7;--bg:#fff;--code:#f4f6fa}
+*{box-sizing:border-box}body{margin:0;font:16px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);display:flex}
+nav{position:sticky;top:0;align-self:flex-start;height:100vh;overflow:auto;width:270px;flex:none;padding:24px 18px;border-right:1px solid var(--line);background:#fafbfd}
+nav b{display:block;margin-bottom:12px;font-size:15px}nav a{display:block;padding:5px 8px;color:var(--mut);text-decoration:none;border-radius:6px;font-size:14px}nav a:hover{background:#eef2fa;color:var(--acc)}
+main{max-width:860px;padding:40px 48px 120px;min-width:0}
+h1{font-size:30px;margin-top:56px}h1:first-child{margin-top:0}h2{margin-top:36px;font-size:21px;border-bottom:1px solid var(--line);padding-bottom:6px}h3{margin-top:26px}
+a{color:var(--acc)}code{background:var(--code);padding:2px 5px;border-radius:4px;font-size:.9em}
+pre{background:var(--code);padding:14px 16px;border-radius:8px;overflow:auto;border:1px solid var(--line)}pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%;display:block;overflow:auto;margin:14px 0}th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;font-size:14.5px}th{background:#f4f6fa}
+blockquote{margin:16px 0;padding:8px 16px;border-left:4px solid var(--acc);background:#f4f7fe;color:#33405a}hr{border:0;border-top:1px solid var(--line);margin:48px 0}
+@media(max-width:800px){body{display:block}nav{position:static;height:auto;width:auto;border:0;border-bottom:1px solid var(--line)}main{padding:24px 18px}}
+</style></head><body><nav><b>Cloudways Cookbook</b><a href="#welcome-to-the-cloudways-cookbook">Welcome to the Cloudways Cookbook</a><a href="#1-your-first-server-and-app">1. Your first server and app</a><a href="#2-deploy-apps">2. Deploy apps</a><a href="#3-api-and-automation">3. API and automation</a><a href="#4-mcp-and-ai-agents">4. MCP and AI agents</a><a href="#5-ops-basics">5. Ops basics</a></nav><main><h1 id="welcome-to-the-cloudways-cookbook">Welcome to the Cloudways Cookbook</h1>
+<p>A hands-on collection of guides and runnable examples for hackers getting started with <a href="https://www.cloudways.com">Cloudways</a>: managed cloud hosting on top of DigitalOcean, Vultr, Linode, AWS, and Google Cloud.</p>
+<blockquote>
+<p><strong>Disclaimer:</strong> This is an unofficial, community-style guide. Cloudways ships changes often (the API, MCP server, and auth model all changed in 2026). Always confirm details in the <a href="https://support.cloudways.com">official docs</a> and the <a href="https://developers.cloudways.com/play">API Playground</a>. Anything marked <strong>(verify)</strong> was inferred from docs rather than tested against a live account.</p>
+</blockquote>
+<h2 id="who-this-is-for">Who this is for</h2>
+<p>Developers who are comfortable with a terminal and Git but new to Cloudways. You'll go from zero to a deployed app, then automate it with the API and drive it from an AI agent over MCP.</p>
+<h2 id="repository-structure">Repository structure</h2>
+<ul>
+<li><a href="tutorials"><strong>Tutorials</strong></a>: Step-by-step guides, numbered in the order to read them.</li>
+<li><a href="scripts"><strong>Scripts</strong></a>: Dependency-free Python helpers for the Cloudways API (<code>cw.py</code> plus small CLI tools).</li>
+<li><a href="notebooks"><strong>Notebooks</strong></a>: A Jupyter quickstart for exploring the API interactively.</li>
+<li><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook"><strong>GUIDE.md</strong></a>: Everything above in one long file.</li>
+<li><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook"><strong>index.html</strong></a>: The same guide as a single self-contained web page you can host anywhere.</li>
+</ul>
+<h2 id="get-started">Get started</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tutorial</th>
+<th>You will</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">First server and app</a></td>
+<td>Start the free trial, launch a server, reach it over SSH/SFTP</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">Deploy apps</a></td>
+<td>Ship WordPress, PHP/Laravel, and Git-based deployments</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">API and automation</a></td>
+<td>Create an Access Token, call the v2 API, script your fleet</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">MCP and AI agents</a></td>
+<td>Manage Cloudways from Claude, Cursor, VS Code, and more</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">Ops basics</a></td>
+<td>Domains, SSL, backups, staging, monitoring, scaling</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fastest path for a hackathon:</strong> do tutorial 1, then tutorial 3 or 4. You can have a server provisioned and scripted in well under an hour, minus provisioning wait time.</p>
+<h2 id="before-you-begin-three-things-that-changed-in-2026">Before you begin: three things that changed in 2026</h2>
+<ol>
+<li><strong>Legacy API keys are retired.</strong> The email + API key flow reached end of life on <strong>October 15, 2026</strong>. New accounts only get <strong>Access Tokens</strong>. Use <code>Authorization: Bearer &lt;token&gt;</code>.</li>
+<li><strong>API v1 is sunset, v2 is current.</strong> Cloudways says migration is mostly replacing <code>v1</code> with <code>v2</code> in URL paths.</li>
+<li><strong>API access is owner-only.</strong> Team members can't create tokens; the primary account owner must.</li>
+</ol>
+<h2 id="quick-api-smoke-test">Quick API smoke test</h2>
+<pre><code class="language-bash">export CLOUDWAYS_TOKEN=&quot;&lt;your access token&gt;&quot;
+python3 scripts/list_servers.py
+</code></pre>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="https://support.cloudways.com">Cloudways Help Center</a></li>
+<li><a href="https://developers.cloudways.com/docs">API docs</a> and <a href="https://developers.cloudways.com/play">API Playground</a></li>
+<li><a href="https://support.cloudways.com/en/articles/5136065-how-to-create-and-manage-cloudways-api-access-tokens">Access Token guide</a></li>
+<li><a href="https://support.cloudways.com/en/articles/14654372-how-to-use-cloudways-mcp-server-for-ai-based-server-management">MCP server setup</a> and <a href="https://support.cloudways.com/en/articles/15798823-cloudways-mcp-server-tools">MCP tool reference</a></li>
+<li><a href="https://github.com/CloudwaysbyDO/">Node.js templates on GitHub</a></li>
+<li><a href="https://www.reddit.com/r/CloudwaysbyDO/">Cloudways on Reddit</a></li>
+</ul>
+<h2 id="get-help">Get help</h2>
+<p>Ask in the Cloudways community, or contact support 24/7 through the platform's chat. For issues with this cookbook, open an issue in this repository.</p>
+<h2 id="contributing">Contributing</h2>
+<p>Corrections are welcome, especially anything marked <strong>(verify)</strong> that you've confirmed. Keep examples runnable and keep secrets out of commits.</p>
+<h2 id="safety-notes-for-hackers">Safety notes for hackers</h2>
+<ul>
+<li>Servers bill by the hour once you leave the trial. Delete what you don't need.</li>
+<li>The API Playground and every script here act on your <strong>real account</strong>. Use a throwaway server.</li>
+<li>Never commit tokens. Use environment variables or a secrets manager.</li>
+</ul>
+<hr />
+<h1 id="1-your-first-server-and-app">1. Your first server and app</h1>
+<p><strong>Goal:</strong> a running Cloudways server with one app, reachable over SSH and SFTP.</p>
+<h2 id="concepts-in-60-seconds">Concepts in 60 seconds</h2>
+<ul>
+<li><strong>Server</strong>: a VM on a cloud provider (DigitalOcean, Vultr, Linode, AWS, or Google Cloud) that Cloudways provisions and manages.</li>
+<li><strong>Application</strong>: a site or app on a server (WordPress, WooCommerce, Laravel, Magento, PHP, and others). One server can host many apps.</li>
+<li><strong>Project</strong>: an optional grouping of servers and apps.</li>
+<li><strong>Credentials</strong>: <em>master</em> credentials reach every app on the server; <em>application</em> credentials reach one app.</li>
+</ul>
+<h2 id="step-1-start-the-free-trial">Step 1: Start the free trial</h2>
+<p>Cloudways offers a <strong>3-day Flexible trial with no credit card</strong>. To keep your server afterward you must add a card (a small temporary verification charge, reversed automatically, may appear).</p>
+<ol>
+<li>Sign up at <a href="https://platform.cloudways.com/signup">platform.cloudways.com</a> and log in.</li>
+<li>In the left menu choose <strong>Cloudways Flexible</strong>, then <strong>Get Started</strong>, then <strong>3-days free trial</strong>.</li>
+<li>Pick your app, server, and project names.</li>
+<li>Choose a provider, server size, and location.</li>
+<li>Click <strong>Launch Now</strong>.</li>
+</ol>
+<blockquote>
+<p><strong>Hackathon tip:</strong> DigitalOcean with the smallest size is the cheapest way to experiment. Pick the region closest to your judges or users.</p>
+</blockquote>
+<p>Provisioning takes a few minutes. The dashboard shows progress.</p>
+<h2 id="step-2-find-your-credentials">Step 2: Find your credentials</h2>
+<p>Open <strong>Servers → your server → Master Credentials</strong> for the public IP, master username, and password. For a single app, open <strong>Applications → your app → Access Details</strong>.</p>
+<h2 id="step-3-enable-ssh-for-the-app">Step 3: Enable SSH for the app</h2>
+<p>SSH is <strong>not enabled by default</strong> for application users. Open the app's <strong>Application Settings</strong> and toggle <strong>Enable SSH Access</strong>. Master credentials work without this.</p>
+<h2 id="step-4-connect">Step 4: Connect</h2>
+<pre><code class="language-bash">ssh &lt;username&gt;@&lt;server-ip&gt;
+</code></pre>
+<p>For SFTP use the same host, user, and password with any client (<code>sftp</code>, Cyberduck, FileZilla).</p>
+<p><strong>Prefer keys:</strong> add your public key under the server's SSH key settings so you can skip passwords. (You can also do this by API or MCP; see tutorials 3 and 4.)</p>
+<h2 id="step-5-look-around">Step 5: Look around</h2>
+<pre><code class="language-bash">cd ~/applications        # one folder per app, named by an internal ID
+ls
+cd &lt;app-folder&gt;/public_html
+</code></pre>
+<p><code>public_html</code> is the web root. Edit a file, refresh the app URL, and you've confirmed the full loop.</p>
+<h2 id="checkpoint">Checkpoint</h2>
+<ul>
+<li>[ ] Server shows <strong>Running</strong></li>
+<li>[ ] You can SSH or SFTP in</li>
+<li>[ ] You know your server ID and app ID (visible in the dashboard URL and in <code>scripts/list_servers.py</code> output)</li>
+</ul>
+<p><strong>Next:</strong> <a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">Deploy apps →</a></p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://support.cloudways.com/en/articles/10061830-how-to-subscribe-flexible-trial">Flexible trial guide</a></li>
+</ul>
+<hr />
+<h1 id="2-deploy-apps">2. Deploy apps</h1>
+<p><strong>Goal:</strong> get real code running on your server three ways: a one-click app, a Git deployment, and a PHP/Laravel app.</p>
+<h2 id="a-one-click-apps-wordpress-and-friends">A. One-click apps (WordPress and friends)</h2>
+<p>When you launch a server (or later, <strong>Add Application</strong> on an existing server), choose an application type. Cloudways installs and configures it. Supported types include WordPress, WooCommerce, Laravel, Magento, and PHP, among others.</p>
+<p>After install, the app has a default Cloudways URL. Use it right away; add your own domain in <a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">tutorial 5</a>.</p>
+<h2 id="b-git-deployment">B. Git deployment</h2>
+<p>Cloudways can pull code from your repo into an app. Requirements to know up front:</p>
+<ul>
+<li>The repo must be reachable <strong>over SSH</strong> (HTTPS URLs are not supported).</li>
+<li>You add a Cloudways-generated <strong>deploy key</strong> to your repo host.</li>
+</ul>
+<p><strong>Steps</strong></p>
+<ol>
+<li>Open <strong>Applications → your app → Deployment via Git</strong>.</li>
+<li>Click <strong>Generate SSH Key</strong> and copy the public key.</li>
+<li>In GitHub: repo <strong>Settings → Deploy keys → Add deploy key</strong>, paste, save. (GitLab and Bitbucket have equivalents.)</li>
+<li>Back in Cloudways, enter the SSH repo address (<code>git@github.com:you/repo.git</code>), then <strong>Get Branches</strong>.</li>
+<li>Choose a branch and deploy path, then <strong>Start Deployment</strong>.</li>
+<li>For later updates, click <strong>Pull</strong>, or add the webhook Cloudways shows to auto-deploy on push (GitHub, GitLab, and Bitbucket are supported).</li>
+</ol>
+<p>You can do the same through the API: see <a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook"><code>scripts/git_deploy.py</code></a>.</p>
+<h2 id="c-a-laravel-or-custom-php-app">C. A Laravel or custom PHP app</h2>
+<ol>
+<li>Create a <strong>Laravel</strong> (or <strong>PHP</strong>) application.</li>
+<li>Deploy your code with Git as above, or upload via SFTP.</li>
+<li>Laravel serves from <code>public/</code>. Point the app's <strong>webroot</strong> at it (Application Settings → webroot, or the <code>app_webroot_update</code> MCP tool): <code>/public_html/public</code>.</li>
+<li>SSH in and run your build steps:</li>
+</ol>
+<pre><code class="language-bash">cd ~/applications/&lt;app-folder&gt;/public_html
+composer install --no-dev
+cp .env.example .env &amp;&amp; php artisan key:generate
+php artisan migrate --force
+</code></pre>
+<p>Get the database host, name, user, and password from <strong>Application → Access Details</strong>.</p>
+<h2 id="d-nodejs">D. Node.js</h2>
+<p>Cloudways has announced <strong>Cloudways Velocity</strong>, managed Node.js hosting for apps deployed from GitHub, and publishes Node.js starter templates at <a href="https://github.com/CloudwaysbyDO/">github.com/CloudwaysbyDO</a>. Availability may be limited (early access was advertised), so <strong>check the <a href="https://www.cloudways.com/en/velocity.php">Velocity page</a></strong> before planning a hackathon around it. If Velocity isn't open to you, a PHP-centric Flexible server is the supported path today.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git "permission denied"</td>
+<td>Deploy key not added to the repo, or you used an HTTPS URL</td>
+</tr>
+<tr>
+<td>403 / blank page on Laravel</td>
+<td>Webroot not set to <code>public</code></td>
+</tr>
+<tr>
+<td><code>ssh: permission denied</code> for an app user</td>
+<td>SSH not enabled in Application Settings</td>
+</tr>
+<tr>
+<td>Files owned by wrong user after manual edits</td>
+<td>Use <strong>Reset File Permissions</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Next:</strong> <a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">API and automation →</a></p>
+<h2 id="references_1">References</h2>
+<ul>
+<li><a href="https://support.cloudways.com/using-git-for-deployment/">Git deployment help article</a></li>
+</ul>
+<hr />
+<h1 id="3-api-and-automation">3. API and automation</h1>
+<p><strong>Goal:</strong> authenticate with an Access Token and script your Cloudways account.</p>
+<h2 id="the-2026-auth-model">The 2026 auth model</h2>
+<ul>
+<li><strong>Legacy email + API key (<code>/oauth/access_token</code>)</strong>: end of life October 15, 2026. Don't build on it.</li>
+<li><strong>Access Tokens</strong>: create many, each with a name, expiry, and scope. Send as <code>Authorization: Bearer &lt;token&gt;</code>.</li>
+<li><strong>API v2</strong> is current; v1 is sunset. Cloudways' migration note: replace <code>v1</code> with <code>v2</code> in URL paths.</li>
+<li><strong>Rate limit:</strong> 100 requests per minute.</li>
+<li>Only the <strong>primary account owner</strong> can create tokens.</li>
+</ul>
+<h2 id="step-1-create-a-token">Step 1: Create a token</h2>
+<ol>
+<li>Log in at <a href="https://unified.cloudways.com">unified.cloudways.com</a>.</li>
+<li>Top-right profile menu → <strong>API Integration</strong> → <strong>Create Access Token</strong>.</li>
+<li>Name it (e.g. <code>hackathon-dev</code>), pick a short expiry (<strong>1 day</strong> is plenty for a hackathon), and choose a scope:
+   - <strong>Read-Only</strong>: GET calls only. Start here.
+   - <strong>Limited Access</strong> (beta): pick endpoint groups (Server, Application, Git, Lists, Monitoring, ...).
+   - <strong>Full Access</strong>: everything. Avoid unless needed.</li>
+<li>Copy the token immediately. <strong>It's shown once</strong> and can't be recovered.</li>
+</ol>
+<pre><code class="language-bash">export CLOUDWAYS_TOKEN=&quot;&lt;paste here&gt;&quot;   # never commit this
+</code></pre>
+<h2 id="step-2-try-the-playground">Step 2: Try the Playground</h2>
+<p>Open the <a href="https://developers.cloudways.com/play">API Playground</a>, click <strong>Authorize</strong>, choose the <strong>Access Token</strong> tab, paste your token. Run <code>GET /server</code> (list servers). The Playground shows request and response shapes for every endpoint. It acts on your <strong>real account</strong>, so test on a throwaway server.</p>
+<h2 id="step-3-call-it-from-code">Step 3: Call it from code</h2>
+<p>Base URL (<strong>verify</strong> in the docs; derived from the v1→v2 migration note):</p>
+<pre><code>https://api.cloudways.com/api/v2
+</code></pre>
+<p>Override with <code>CLOUDWAYS_API_BASE</code> if it differs.</p>
+<pre><code class="language-bash">curl -s -H &quot;Authorization: Bearer $CLOUDWAYS_TOKEN&quot; \
+  https://api.cloudways.com/api/v2/server | head -c 600
+</code></pre>
+<p>Or use the helper scripts (standard library only, Python 3.8+):</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook"><code>scripts/cw.py</code></a></td>
+<td>Tiny client: auth, errors, and operation polling</td>
+</tr>
+<tr>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook"><code>scripts/list_servers.py</code></a></td>
+<td>List servers and their apps (read-only)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook"><code>scripts/create_server.py</code></a></td>
+<td>Launch a server. <strong>Dry run by default</strong>; needs <code>--yes</code> to spend money</td>
+</tr>
+<tr>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook"><code>scripts/git_deploy.py</code></a></td>
+<td>Clone or pull a Git repo into an app</td>
+</tr>
+<tr>
+<td><a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook"><code>scripts/app_backup.py</code></a></td>
+<td>Back up an app before you deploy</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">python3 scripts/list_servers.py
+python3 scripts/create_server.py --provider do --region nyc3 --size 1GB --app wordpress
+python3 scripts/git_deploy.py pull --server 123 --app 456 --branch main
+</code></pre>
+<h2 id="things-to-know">Things to know</h2>
+<ul>
+<li><strong>Creation is asynchronous.</strong> <code>POST /server</code> returns an operation ID; poll the operation endpoint until it completes. <code>cw.wait_for_operation()</code> does this.</li>
+<li><strong>Provider matters.</strong> Valid regions, sizes, and options differ per provider; wrong combinations return <code>422</code>. Discover valid values from the <strong>Lists</strong> endpoints (providers, regions, sizes, apps) rather than guessing.</li>
+<li><strong>Request bodies for <code>POST /server</code> and Git calls are marked (verify).</strong> Check each against the Playground's request schema before relying on it. Scripts here follow v1 field names, which v2 is documented to keep in most cases.</li>
+<li><strong>API groups</strong> in the docs: Lists, Server, Server Management, Service, Application, Authentication, Projects, Git, CloudwaysBot, App Management, Security, Operation.</li>
+</ul>
+<h2 id="ideas-to-build">Ideas to build</h2>
+<ul>
+<li>Spin up a per-PR preview app, clone from production, post the URL to Slack, delete on merge.</li>
+<li>A cron that backs up apps and ships a summary to Discord.</li>
+<li>A dashboard pulling monitoring graphs for all servers.</li>
+</ul>
+<p><strong>Next:</strong> <a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">MCP and AI agents →</a> or open the <a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">notebook</a>.</p>
+<h2 id="references_2">References</h2>
+<ul>
+<li><a href="https://support.cloudways.com/en/articles/5136065-how-to-create-and-manage-cloudways-api-access-tokens">Access Tokens help article</a></li>
+<li><a href="https://www.cloudways.com/blog/introducing-cloudways-api-v2/">API v2 announcement</a></li>
+<li><a href="https://developers.cloudways.com/docs">API docs</a></li>
+</ul>
+<hr />
+<h1 id="4-mcp-and-ai-agents">4. MCP and AI agents</h1>
+<p><strong>Goal:</strong> manage Cloudways in plain English from an AI client such as Claude, Cursor, or VS Code.</p>
+<p>The Cloudways <strong>MCP server</strong> exposes 240+ tools (servers, apps, backups, Git, DNS, monitoring, security, and more) to any <a href="https://modelcontextprotocol.io">Model Context Protocol</a> client. To keep your context window small, a client initially sees 65 tools; the rest are reached through three meta-tools: <code>list_available_toolsets</code>, <code>get_toolset_tools</code>, and <code>execute_tool</code>.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>A Cloudways <strong>Access Token</strong> (<a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">tutorial 3</a>). For safety, create a <strong>Read-Only</strong> token first.</li>
+<li>Node.js (the docs ask for v24.14.1+) for clients that connect through <code>mcp-remote</code>.</li>
+<li>An MCP client.</li>
+</ul>
+<h2 id="endpoint-and-headers">Endpoint and headers</h2>
+<ul>
+<li>URL: <code>https://mcp.cloudways.com/mcp/</code> (the trailing slash matters)</li>
+<li>Required headers:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X-Access-Token</code></td>
+<td>your token</td>
+</tr>
+<tr>
+<td><code>X-Mcp-Host</code></td>
+<td>your client: <code>cursor</code>, <code>claude-desktop</code>, <code>claude-code</code>, <code>vs-code</code>, <code>gemini-cli</code>, <code>codex</code>, <code>codex-cli</code>, or <code>Devin</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The older <code>X-CW-Email</code> / <code>X-CW-Api-Key</code> headers belong to the retired API key flow.</p>
+</blockquote>
+<h2 id="client-configs">Client configs</h2>
+<p><strong>Claude Code</strong></p>
+<pre><code class="language-bash">claude mcp add --transport http \
+  --header &quot;X-Access-Token: &lt;your-token&gt;&quot; \
+  --header &quot;X-Mcp-Host: claude-code&quot; \
+  -s user \
+  cloudways https://mcp.cloudways.com/mcp/
+claude mcp list
+</code></pre>
+<p><strong>Claude Desktop</strong> (<code>~/Library/Application Support/Claude/claude_desktop_config.json</code> on macOS). Uses the <code>mcp-remote</code> bridge. No spaces after the colon in <code>--header</code> values:</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;cloudways&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [
+        &quot;mcp-remote&quot;,
+        &quot;https://mcp.cloudways.com/mcp/&quot;,
+        &quot;--header&quot;, &quot;X-Access-Token:&lt;your-token&gt;&quot;,
+        &quot;--header&quot;, &quot;X-Mcp-Host:claude-desktop&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<p>Fully quit and reopen Claude Desktop afterward.</p>
+<p><strong>Cursor</strong> (<code>~/.cursor/mcp.json</code>)</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;cloudways&quot;: {
+      &quot;url&quot;: &quot;https://mcp.cloudways.com/mcp/&quot;,
+      &quot;headers&quot;: {
+        &quot;X-Access-Token&quot;: &quot;&lt;your-token&gt;&quot;,
+        &quot;X-Mcp-Host&quot;: &quot;cursor&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<p><strong>VS Code</strong> (<code>mcp.json</code>; note <code>servers</code>, not <code>mcpServers</code>, and <code>type: http</code>)</p>
+<pre><code class="language-json">{
+  &quot;servers&quot;: {
+    &quot;cloudways&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://mcp.cloudways.com/mcp/&quot;,
+      &quot;headers&quot;: {
+        &quot;X-Access-Token&quot;: &quot;&lt;your-token&gt;&quot;,
+        &quot;X-Mcp-Host&quot;: &quot;vs-code&quot;
+      }
+    }
+  },
+  &quot;inputs&quot;: []
+}
+</code></pre>
+<p><strong>Gemini CLI</strong> uses <code>httpUrl</code>; <strong>Codex</strong> uses TOML (<code>[mcp_servers.cloudways]</code> with <code>http_headers</code>). See the <a href="https://support.cloudways.com/en/articles/14654372-how-to-use-cloudways-mcp-server-for-ai-based-server-management">official setup article</a> for those.</p>
+<h2 id="verify">Verify</h2>
+<p>Prompt: <code>Show me all my servers</code>. You should see names, providers, regions, and IPs.</p>
+<h2 id="prompts-to-try-read-only-first">Prompts to try (read-only first)</h2>
+<table>
+<thead>
+<tr>
+<th>Intent</th>
+<th>Prompt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inventory</td>
+<td>"Show me all my running servers."</td>
+</tr>
+<tr>
+<td>Health</td>
+<td>"Are all services healthy on server 12345?"</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>"Show CPU usage for server 12345 over the last 24 hours."</td>
+</tr>
+<tr>
+<td>Slow code</td>
+<td>"Which PHP pages are slowest on app 67890?"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Then, with a Full or Limited token:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Intent</th>
+<th>Prompt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Provision</td>
+<td>"Create a 2GB DigitalOcean server in NYC with WordPress."</td>
+</tr>
+<tr>
+<td>Safe deploys</td>
+<td>"Back up app 67890 on server 12345, then pull the latest from main."</td>
+</tr>
+<tr>
+<td>Staging</td>
+<td>"Clone app 67890 on server 12345 as 'Staging Copy'."</td>
+</tr>
+</tbody>
+</table>
+<h2 id="guardrails-read-this">Guardrails (read this)</h2>
+<ul>
+<li>MCP can run <strong>destructive, irreversible actions</strong> such as deleting servers and apps. Include IDs in prompts; ambiguous prompts can resolve to the wrong target.</li>
+<li>Prefer scoped tokens. Passwords for SSH/SFTP are <strong>hidden from MCP results by default</strong>; the per-token <strong>Reveal Credentials</strong> toggle turns that on. Leave it off unless you need it.</li>
+<li>There is no per-user access control at the MCP layer; don't share a token across people.</li>
+<li>If the agent says new tools don't exist, your client cached an old tool list: fully quit (not just close) and reopen, or toggle the server off and on.</li>
+</ul>
+<p><strong>Next:</strong> <a href="https://github.com/&lt;your-org&gt;/cloudways-cookbook">Ops basics →</a></p>
+<h2 id="references_3">References</h2>
+<ul>
+<li><a href="https://support.cloudways.com/en/articles/14654372-how-to-use-cloudways-mcp-server-for-ai-based-server-management">MCP server setup</a></li>
+<li><a href="https://support.cloudways.com/en/articles/15798823-cloudways-mcp-server-tools">Full MCP tool list</a></li>
+<li><a href="https://www.cloudways.com/blog/cloudways-mcp-2-0_logs-wordpress-management/">MCP 2.0 announcement</a></li>
+</ul>
+<hr />
+<h1 id="5-ops-basics">5. Ops basics</h1>
+<p><strong>Goal:</strong> make your app production-shaped: your own domain, HTTPS, backups, a staging copy, visibility, and room to scale.</p>
+<p>Menu names shift as the dashboard evolves; use search in the <a href="https://support.cloudways.com">Help Center</a> if something has moved.</p>
+<h2 id="domains">Domains</h2>
+<ol>
+<li>In the app's <strong>Domain Management</strong>, set your <strong>primary domain</strong>.</li>
+<li>At your DNS provider, point the domain at the server's public IP (an <code>A</code> record), or use the app URL via a <code>CNAME</code> for subdomains.</li>
+<li>Wait for DNS to propagate. Extra domains go in as <strong>aliases</strong>.</li>
+</ol>
+<p>API/MCP equivalents: <code>app_cname_update</code>, <code>app_aliases_update</code>. Cloudways also offers <strong>DNS Made Easy</strong> as an add-on.</p>
+<h2 id="ssl">SSL</h2>
+<p>In <strong>SSL Certificate</strong>, install a Let's Encrypt certificate for your domain (it must already resolve to the server). Then enable <strong>Force HTTPS</strong> (<code>app_enforce_https_update</code>).</p>
+<h2 id="backups">Backups</h2>
+<ul>
+<li>Open <strong>Backups</strong> on the server for automatic backup settings (frequency, retention, local vs. off-server).</li>
+<li>Take an <strong>on-demand backup</strong> before every deploy: <code>scripts/app_backup.py</code>, or MCP "Back up app 67890 on server 12345".</li>
+<li>Practice a <strong>restore</strong> once, on a test app. A backup you have never restored is a hope, not a backup.</li>
+</ul>
+<h2 id="staging">Staging</h2>
+<p>Clone your app to a staging copy (<strong>Staging Management</strong> or <code>app_clone</code>), test there, then push changes back. Protect staging with <strong>password protection</strong> (HTTP basic auth) so search engines and strangers stay out.</p>
+<h2 id="monitoring">Monitoring</h2>
+<ul>
+<li><strong>Monitoring</strong> graphs on each server: CPU, memory, disk, and more.</li>
+<li>App-level analytics for traffic, slow PHP pages, and slow MySQL queries.</li>
+<li><strong>CloudwaysBot</strong> sends alerts to Slack, email, and other channels.</li>
+<li><strong>Copilot</strong> provides AI-assisted troubleshooting suggestions (a paid add-on; check current pricing).</li>
+</ul>
+<h2 id="scaling">Scaling</h2>
+<ul>
+<li><strong>Vertical scaling</strong>: resize the server's CPU/RAM in <strong>Server Management → Vertical Scaling</strong> (brief downtime is possible). Disk scaling support varies by provider.</li>
+<li><strong>Caching</strong>: Varnish, Redis/Memcached and object cache can dramatically cut load; use <em>Purge Cache</em> after deploys.</li>
+<li><strong>CDN</strong>: the <strong>Cloudflare Enterprise CDN</strong> add-on can offload static assets and add security.</li>
+</ul>
+<h2 id="security-quick-wins">Security quick wins</h2>
+<ul>
+<li>Turn <strong>SSH off</strong> for apps that don't need it.</li>
+<li>Use <strong>application credentials</strong> instead of master credentials for deploy bots.</li>
+<li>Disable <strong>XML-RPC</strong> on WordPress sites that don't need it.</li>
+<li>Rotate passwords and revoke tokens after the hackathon.</li>
+</ul>
+<h2 id="clean-up">Clean up</h2>
+<p>When you're done, delete servers you won't keep (<strong>Server → Delete Server</strong>, or <code>server_delete</code>). Deletion is permanent.</p>
+<h2 id="pre-demo-checklist">Pre-demo checklist</h2>
+<ul>
+<li>[ ] Domain resolves, HTTPS valid, Force HTTPS on</li>
+<li>[ ] A fresh backup exists</li>
+<li>[ ] Staging password-protected</li>
+<li>[ ] Monitoring tab open on a second screen</li>
+<li>[ ] You know how to roll back (restore, or <code>git pull</code> a known-good branch)</li>
+</ul></main></body></html>
