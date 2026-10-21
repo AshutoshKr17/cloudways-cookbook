@@ -4,10 +4,12 @@
 Prereq: generate the app's deploy key in the dashboard (Deployment via Git) and
 add it to your repo. The repo URL must be an SSH URL (git@host:org/repo.git).
 
-Endpoints/fields follow v1 and are (verify) for v2 in the API Playground.
+Pull fields (server_id, app_id, git_url, branch_name, optional deploy_path) match
+Cloudways' current webhook guide. The clone body is assumed to be the same
+(verify in the API Playground).
 
   git_deploy.py clone --server 1 --app 2 --url git@github.com:me/r.git --branch main
-  git_deploy.py pull  --server 1 --app 2 --branch main
+  git_deploy.py pull  --server 1 --app 2 --url git@github.com:me/r.git --branch main
 """
 import argparse
 import json
@@ -21,15 +23,15 @@ def main():
     p.add_argument("--server", required=True)
     p.add_argument("--app", required=True)
     p.add_argument("--branch", required=True)
-    p.add_argument("--url", help="SSH repo URL (clone only)")
-    p.add_argument("--deploy-path", default="", help="subfolder of public_html (clone only)")
+    p.add_argument("--url", required=True, help="SSH repo URL, e.g. git@github.com:org/repo.git")
+    p.add_argument("--deploy-path", default="", help="subfolder of public_html (empty = public_html)")
     a = p.parse_args()
 
-    body = {"server_id": a.server, "app_id": a.app, "branch_name": a.branch}
-    if a.action == "clone":
-        if not a.url or not a.url.startswith("git@"):
-            raise SystemExit("clone needs --url in SSH form: git@host:org/repo.git")
-        body.update({"git_url": a.url, "deploy_path": a.deploy_path})
+    if not a.url.startswith("git@"):
+        raise SystemExit("--url must be an SSH URL: git@host:org/repo.git (HTTPS is not supported)")
+    body = {"server_id": a.server, "app_id": a.app, "git_url": a.url, "branch_name": a.branch}
+    if a.deploy_path:
+        body["deploy_path"] = a.deploy_path
 
     resp = cw.post(f"/git/{a.action}", body)
     print(json.dumps(resp, indent=2))

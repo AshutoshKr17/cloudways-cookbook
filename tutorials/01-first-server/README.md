@@ -25,7 +25,7 @@ Provisioning takes a few minutes. The dashboard shows progress.
 
 ## Step 2: Find your credentials
 
-Open **Servers → your server → Master Credentials** for the public IP, master username, and password. For a single app, open **Applications → your app → Access Details**.
+Menu labels shift over time, so look for the equivalents if yours differ. Open **Servers → your server → Master Credentials** for the public IP, master username, and password. For a single app, open **Applications → your app → Access Details**.
 
 ## Step 3: Enable SSH for the app
 

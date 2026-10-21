@@ -1,8 +1,11 @@
 """Tiny Cloudways API client (standard library only).
 
 Auth: Access Token via the CLOUDWAYS_TOKEN env var, sent as a Bearer token.
-Base URL: CLOUDWAYS_API_BASE (default is the v2 base derived from Cloudways'
-v1 -> v2 migration note; confirm it in https://developers.cloudways.com/docs).
+Base URL: CLOUDWAYS_API_BASE (default https://api.cloudways.com/api/v2, the v2 base
+listed in Cloudways' MCP 2.0 announcement).
+
+POST bodies are sent form-encoded, matching Cloudways' official Git webhook sample.
+Pass as_json=True if an endpoint in the Playground expects JSON.
 """
 import json
 import os
@@ -22,12 +25,17 @@ def _token():
     return tok
 
 
-def request(method, path, body=None, params=None):
+def request(method, path, body=None, params=None, as_json=False):
     """Call the API and return parsed JSON. Exits with a readable error on failure."""
     url = BASE + path
     if params:
         url += "?" + urllib.parse.urlencode(params)
-    data = json.dumps(body).encode() if body is not None else None
+    if body is None:
+        data, ctype = None, "application/json"
+    elif as_json:
+        data, ctype = json.dumps(body).encode(), "application/json"
+    else:
+        data, ctype = urllib.parse.urlencode(body).encode(), "application/x-www-form-urlencoded"
     req = urllib.request.Request(
         url,
         data=data,
@@ -35,7 +43,7 @@ def request(method, path, body=None, params=None):
         headers={
             "Authorization": f"Bearer {_token()}",
             "Accept": "application/json",
-            "Content-Type": "application/json",
+            "Content-Type": ctype,
         },
     )
     try:
@@ -59,8 +67,8 @@ def get(path, **params):
     return request("GET", path, params=params or None)
 
 
-def post(path, body):
-    return request("POST", path, body=body)
+def post(path, body, as_json=False):
+    return request("POST", path, body=body, as_json=as_json)
 
 
 def wait_for_operation(op_id, timeout=900, interval=10):

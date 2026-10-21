@@ -7,7 +7,7 @@ The Cloudways **MCP server** exposes 240+ tools (servers, apps, backups, Git, DN
 ## Prerequisites
 
 - A Cloudways **Access Token** ([tutorial 3](../03-api-and-automation/README.md)). For safety, create a **Read-Only** token first.
-- Node.js (the docs ask for v24.14.1+) for clients that connect through `mcp-remote`.
+- Node.js for clients that connect through `mcp-remote`. The setup article asks for **v24.14.1+**, though its troubleshooting table says v18+; use a current LTS to be safe.
 - An MCP client.
 
 ## Endpoint and headers
@@ -20,7 +20,7 @@ The Cloudways **MCP server** exposes 240+ tools (servers, apps, backups, Git, DN
 | `X-Access-Token` | your token |
 | `X-Mcp-Host` | your client: `cursor`, `claude-desktop`, `claude-code`, `vs-code`, `gemini-cli`, `codex`, `codex-cli`, or `Devin` |
 
-> The older `X-CW-Email` / `X-CW-Api-Key` headers belong to the retired API key flow.
+> The older `X-CW-Email` / `X-CW-Api-Key` headers (still mentioned in parts of the FAQ) belong to the retired API key flow.
 
 ## Client configs
 

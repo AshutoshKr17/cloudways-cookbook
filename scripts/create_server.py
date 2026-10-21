@@ -5,7 +5,8 @@ DRY RUN BY DEFAULT: prints the payload and exits. Add --yes to actually launch
 (this starts billing once your trial ends).
 
 Field names follow Cloudways API v1 and are (verify) for v2: check the request
-schema for POST /server in the API Playground. Valid provider/region/size
+schema for POST /server in the API Playground (bodies are sent form-encoded; use
+cw.post(..., as_json=True) if the Playground shows JSON). Valid provider/region/size
 values come from the "Lists" endpoints, and they differ per provider.
 """
 import argparse

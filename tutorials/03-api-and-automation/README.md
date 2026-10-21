@@ -4,10 +4,10 @@
 
 ## The 2026 auth model
 
-- **Legacy email + API key (`/oauth/access_token`)**: end of life October 15, 2026. Don't build on it.
+- **Legacy email + API key (`/oauth/access_token`)**: scheduled end of life October 15, 2026 (passed); keys are revoked afterward. Cloudways says not to build new integrations on it.
 - **Access Tokens**: create many, each with a name, expiry, and scope. Send as `Authorization: Bearer <token>`.
 - **API v2** is current; v1 is sunset. Cloudways' migration note: replace `v1` with `v2` in URL paths.
-- **Rate limit:** 100 requests per minute.
+- **Rate limit:** 100 requests per minute (per Cloudways' API article).
 - Only the **primary account owner** can create tokens.
 
 ## Step 1: Create a token
@@ -30,17 +30,21 @@ Open the [API Playground](https://developers.cloudways.com/play), click **Author
 
 ## Step 3: Call it from code
 
-Base URL (**verify** in the docs; derived from the v1→v2 migration note):
+Base URL (confirmed by Cloudways' MCP 2.0 announcement, which lists `https://api.cloudways.com/api/v2/providers`):
 
 ```
 https://api.cloudways.com/api/v2
 ```
 
-Override with `CLOUDWAYS_API_BASE` if it differs.
+Override with `CLOUDWAYS_API_BASE` if it ever changes. Note: some help articles (e.g. the Git webhook guide) still show `/api/v1` in sample code; that's stale.
 
 ```bash
 curl -s -H "Authorization: Bearer $CLOUDWAYS_TOKEN" \
   https://api.cloudways.com/api/v2/server | head -c 600
+
+# reference data (providers, regions, sizes) lives under the Lists endpoints:
+curl -s -H "Authorization: Bearer $CLOUDWAYS_TOKEN" \
+  https://api.cloudways.com/api/v2/providers | head -c 600
 ```
 
 Or use the helper scripts (standard library only, Python 3.8+):
@@ -56,14 +60,14 @@ Or use the helper scripts (standard library only, Python 3.8+):
 ```bash
 python3 scripts/list_servers.py
 python3 scripts/create_server.py --provider do --region nyc3 --size 1GB --app wordpress
-python3 scripts/git_deploy.py pull --server 123 --app 456 --branch main
+python3 scripts/git_deploy.py pull --server 123 --app 456 --url git@github.com:me/repo.git --branch main
 ```
 
 ## Things to know
 
 - **Creation is asynchronous.** `POST /server` returns an operation ID; poll the operation endpoint until it completes. `cw.wait_for_operation()` does this.
 - **Provider matters.** Valid regions, sizes, and options differ per provider; wrong combinations return `422`. Discover valid values from the **Lists** endpoints (providers, regions, sizes, apps) rather than guessing.
-- **Request bodies for `POST /server` and Git calls are marked (verify).** Check each against the Playground's request schema before relying on it. Scripts here follow v1 field names, which v2 is documented to keep in most cases.
+- **Request bodies for `POST /server` and backups are marked (verify).** Check each against the Playground's request schema. The Git pull body (`server_id`, `app_id`, `git_url`, `branch_name`, optional `deploy_path`) matches Cloudways' current webhook guide. That guide sends **form-encoded** bodies, and `cw.py` does the same.
 - **API groups** in the docs: Lists, Server, Server Management, Service, Application, Authentication, Projects, Git, CloudwaysBot, App Management, Security, Operation.
 
 ## Ideas to build
@@ -79,3 +83,4 @@ python3 scripts/git_deploy.py pull --server 123 --app 456 --branch main
 - [Access Tokens help article](https://support.cloudways.com/en/articles/5136065-how-to-create-and-manage-cloudways-api-access-tokens)
 - [API v2 announcement](https://www.cloudways.com/blog/introducing-cloudways-api-v2/)
 - [API docs](https://developers.cloudways.com/docs)
+- [Git webhook guide (shows Git pull API usage)](https://support.cloudways.com/en/articles/5124785-automatically-deploy-from-git-to-server-using-webhooks)

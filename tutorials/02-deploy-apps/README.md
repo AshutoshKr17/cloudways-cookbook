@@ -10,21 +10,33 @@ After install, the app has a default Cloudways URL. Use it right away; add your 
 
 ## B. Git deployment
 
-Cloudways can pull code from your repo into an app. Requirements to know up front:
+Cloudways can pull code from your repo into an app. Know these up front:
 
 - The repo must be reachable **over SSH** (HTTPS URLs are not supported).
 - You add a Cloudways-generated **deploy key** to your repo host.
+- The keys generated in the Cloudways UI work for **console deployments only**. To run `git` yourself on the server (push, checkout, etc.) you need **master credentials** and your own key pair.
 
-**Steps**
+**Manual deploys (console)**
 
 1. Open **Applications → your app → Deployment via Git**.
 2. Click **Generate SSH Key** and copy the public key.
 3. In GitHub: repo **Settings → Deploy keys → Add deploy key**, paste, save. (GitLab and Bitbucket have equivalents.)
 4. Back in Cloudways, enter the SSH repo address (`git@github.com:you/repo.git`), then **Get Branches**.
-5. Choose a branch and deploy path, then **Start Deployment**.
-6. For later updates, click **Pull**, or add the webhook Cloudways shows to auto-deploy on push (GitHub, GitLab, and Bitbucket are supported).
+5. Choose a branch and deploy path (empty means `public_html`), then **Start Deployment**.
+6. For later updates, click **Pull**.
 
-You can do the same through the API: see [`scripts/git_deploy.py`](../../scripts/git_deploy.py).
+**Auto-deploy on push**
+
+Cloudways documents this as a small webhook script *you* host, which calls the Git API. Prerequisites: you are the primary account owner, the app is on a Flexible server, and manual Git deployment already works. In short:
+
+1. Create an Access Token with **Limited Access**, only the Git pull operation.
+2. Put the token, server ID, app ID, SSH Git URL, and branch in a config file **outside** `public_html`, and keep it out of Git.
+3. Add a small PHP endpoint that accepts **POST only**, checks a long random webhook secret, and calls the Git pull API.
+4. Add the endpoint URL as a push webhook in GitHub or Bitbucket.
+
+Cloudways' [step-by-step webhook guide](https://support.cloudways.com/en/articles/5124785-automatically-deploy-from-git-to-server-using-webhooks) includes the full hardened script. Its sample code still shows the v1 base URL; use v2 (see tutorial 3).
+
+You can also trigger a pull from your own CI with [`scripts/git_deploy.py`](../../scripts/git_deploy.py). The pull call takes the server ID, app ID, SSH Git URL, and branch name (deploy path optional).
 
 ## C. A Laravel or custom PHP app
 
@@ -42,15 +54,23 @@ php artisan migrate --force
 
 Get the database host, name, user, and password from **Application → Access Details**.
 
-## D. Node.js
+## D. Node.js with Cloudways Velocity (public preview)
 
-Cloudways has announced **Cloudways Velocity**, managed Node.js hosting for apps deployed from GitHub, and publishes Node.js starter templates at [github.com/CloudwaysbyDO](https://github.com/CloudwaysbyDO/). Availability may be limited (early access was advertised), so **check the [Velocity page](https://www.cloudways.com/en/velocity.php)** before planning a hackathon around it. If Velocity isn't open to you, a PHP-centric Flexible server is the supported path today.
+**Cloudways Velocity** is managed Node.js hosting, currently labelled **Public Preview**. Per the [Velocity page](https://www.cloudways.com/en/velocity.php) (checked Oct 21, 2026):
+
+- Connect a GitHub, GitLab, or Bitbucket repo; Velocity detects the framework and sets build and start commands.
+- Presets for Next.js, Remix, React, Astro, Nuxt, Svelte, Vite, Express, Fastify, Angular, and n8n. Node.js LTS 22.x and 24.x, selectable per app.
+- PostgreSQL can be provisioned from the dashboard.
+- Flat monthly plans on persistent servers (no cold starts), starting at $20/month; Starter and Professional include a 3-day free trial.
+
+Pricing and features change during previews, so confirm on the page. Starter templates live at [github.com/CloudwaysbyDO](https://github.com/CloudwaysbyDO/). Velocity is separate from the Flexible (PHP-centric) servers used in the other sections.
 
 ## Troubleshooting
 
 | Symptom | Likely cause |
 |---|---|
 | Git "permission denied" | Deploy key not added to the repo, or you used an HTTPS URL |
+| `git` works in the console but not over SSH | UI-generated keys only work for console deploys; use master credentials and your own key |
 | 403 / blank page on Laravel | Webroot not set to `public` |
 | `ssh: permission denied` for an app user | SSH not enabled in Application Settings |
 | Files owned by wrong user after manual edits | Use **Reset File Permissions** |
@@ -60,3 +80,6 @@ Cloudways has announced **Cloudways Velocity**, managed Node.js hosting for apps
 ## References
 
 - [Git deployment help article](https://support.cloudways.com/using-git-for-deployment/)
+- [Using Git via the command line](https://support.cloudways.com/en/articles/5124793-using-git-via-command-line)
+- [Auto-deploy with webhooks](https://support.cloudways.com/en/articles/5124785-automatically-deploy-from-git-to-server-using-webhooks)
+- [Cloudways Velocity](https://www.cloudways.com/en/velocity.php)

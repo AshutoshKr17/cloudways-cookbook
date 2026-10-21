@@ -1,12 +1,34 @@
-# Welcome to the Cloudways Cookbook
+<h1 align="center">☁️ Cloudways Cookbook</h1>
+
+<p align="center"><b>Launch, deploy, and automate on Cloudways in an afternoon.</b><br>
+A hands-on guide for hackers: Git deploys, the v2 API, and AI-agent control over MCP.</p>
+
+<p align="center">
+  <img alt="Updated" src="https://img.shields.io/badge/updated-Oct%2021%2C%202026-2f6bff">
+  <img alt="API" src="https://img.shields.io/badge/Cloudways%20API-v2-7c4dff">
+  <img alt="Auth" src="https://img.shields.io/badge/auth-Access%20Tokens-16a34a">
+  <img alt="MCP" src="https://img.shields.io/badge/MCP-ready-f59e0b">
+</p>
+
 
 A hands-on collection of guides and runnable examples for hackers getting started with [Cloudways](https://www.cloudways.com): managed cloud hosting on top of DigitalOcean, Vultr, Linode, AWS, and Google Cloud.
 
-> **Disclaimer:** This is an unofficial, community-style guide. Cloudways ships changes often (the API, MCP server, and auth model all changed in 2026). Always confirm details in the [official docs](https://support.cloudways.com) and the [API Playground](https://developers.cloudways.com/play). Anything marked **(verify)** was inferred from docs rather than tested against a live account.
+> **Disclaimer:** This is an unofficial, community-style guide, fact-checked against Cloudways docs on **October 21, 2026**. Cloudways ships changes often (the API, MCP server, and auth model all changed in 2026). Always confirm details in the [official docs](https://support.cloudways.com) and the [API Playground](https://developers.cloudways.com/play). Anything marked **(verify)** was read from docs but not tested against a live account.
 
 ## Who this is for
 
 Developers who are comfortable with a terminal and Git but new to Cloudways. You'll go from zero to a deployed app, then automate it with the API and drive it from an AI agent over MCP.
+
+## Learning path
+
+```mermaid
+flowchart LR
+    A[1. First server] --> B[2. Deploy apps]
+    B --> C[3. API and automation]
+    B --> D[4. MCP and AI agents]
+    C --> E[5. Ops basics]
+    D --> E
+```
 
 ## Repository structure
 
@@ -14,7 +36,8 @@ Developers who are comfortable with a terminal and Git but new to Cloudways. You
 - [**Scripts**](scripts): Dependency-free Python helpers for the Cloudways API (`cw.py` plus small CLI tools).
 - [**Notebooks**](notebooks): A Jupyter quickstart for exploring the API interactively.
 - [**GUIDE.md**](GUIDE.md): Everything above in one long file.
-- [**index.html**](index.html): The same guide as a single self-contained web page you can host anywhere.
+- [**index.html**](index.html): The same guide as a polished, self-contained web page (dark mode, copy buttons). Host it anywhere, e.g. GitHub Pages.
+- [**tools/build.py**](tools/build.py): Regenerates `GUIDE.md` and `index.html` from the tutorials.
 
 ## Get started
 
@@ -30,8 +53,8 @@ Developers who are comfortable with a terminal and Git but new to Cloudways. You
 
 ## Before you begin: three things that changed in 2026
 
-1. **Legacy API keys are retired.** The email + API key flow reached end of life on **October 15, 2026**. New accounts only get **Access Tokens**. Use `Authorization: Bearer <token>`.
-2. **API v1 is sunset, v2 is current.** Cloudways says migration is mostly replacing `v1` with `v2` in URL paths.
+1. **Legacy API keys are going away.** The email + API key flow was scheduled for end of life on **October 15, 2026** (already passed), after which keys are revoked. New accounts only get **Access Tokens**. Use `Authorization: Bearer <token>`.
+2. **API v1 is sunset, v2 is current.** The v2 base URL is `https://api.cloudways.com/api/v2`. Cloudways says migration is mostly replacing `v1` with `v2` in URL paths. Some older help articles still show v1 code samples.
 3. **API access is owner-only.** Team members can't create tokens; the primary account owner must.
 
 ## Quick API smoke test
@@ -56,7 +79,7 @@ Ask in the Cloudways community, or contact support 24/7 through the platform's c
 
 ## Contributing
 
-Corrections are welcome, especially anything marked **(verify)** that you've confirmed. Keep examples runnable and keep secrets out of commits.
+Corrections are welcome, especially anything marked **(verify)** that you've confirmed. Keep examples runnable and keep secrets out of commits. After editing a tutorial, run `pip install markdown && python3 tools/build.py` to refresh `GUIDE.md` and `index.html`.
 
 ## Safety notes for hackers
 

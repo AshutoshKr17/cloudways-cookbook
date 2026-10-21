@@ -14,7 +14,7 @@ API/MCP equivalents: `app_cname_update`, `app_aliases_update`. Cloudways also of
 
 ## SSL
 
-In **SSL Certificate**, install a Let's Encrypt certificate for your domain (it must already resolve to the server). Then enable **Force HTTPS** (`app_enforce_https_update`).
+In **SSL Certificate**, install a free SSL certificate for your domain (it must already resolve to the server). Then enable **Force HTTPS** (`app_enforce_https_update`).
 
 ## Backups
 
@@ -30,12 +30,12 @@ Clone your app to a staging copy (**Staging Management** or `app_clone`), test t
 
 - **Monitoring** graphs on each server: CPU, memory, disk, and more.
 - App-level analytics for traffic, slow PHP pages, and slow MySQL queries.
-- **CloudwaysBot** sends alerts to Slack, email, and other channels.
-- **Copilot** provides AI-assisted troubleshooting suggestions (a paid add-on; check current pricing).
+- **CloudwaysBot** sends real-time insights to the channels you choose (for example Slack).
+- **Cloudways Copilot** offers AI-powered troubleshooting insights; check the product page for availability and pricing.
 
 ## Scaling
 
-- **Vertical scaling**: resize the server's CPU/RAM in **Server Management → Vertical Scaling** (brief downtime is possible). Disk scaling support varies by provider.
+- **Vertical scaling**: resize the server's CPU/RAM from the server's management settings (brief downtime is possible; also available via API/MCP as `server_scale`). Disk and volume scaling support varies by provider.
 - **Caching**: Varnish, Redis/Memcached and object cache can dramatically cut load; use *Purge Cache* after deploys.
 - **CDN**: the **Cloudflare Enterprise CDN** add-on can offload static assets and add security.
 
