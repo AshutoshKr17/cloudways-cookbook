@@ -1,0 +1,12 @@
+# DigitalOcean App Platform spec for the Cloudways Cookbook (static site).
+# Replace YOUR_GITHUB_USER, then: doctl apps create --spec .do/app.yaml
+name: cloudways-cookbook
+static_sites:
+  - name: site
+    environment_slug: html
+    github:
+      repo: AshutoshKr17/cloudways-cookbook
+      branch: main
+      deploy_on_push: true
+    source_dir: /site
+    index_document: index.html

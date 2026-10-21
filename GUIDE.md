@@ -1,4 +1,4 @@
-<h1 align="center">☁️ Cloudways Cookbook</h1>
+<h1 align="center">Cloudways Cookbook</h1>
 
 <p align="center"><b>Launch, deploy, and automate on Cloudways in an afternoon.</b><br>
 A hands-on guide for hackers: Git deploys, the v2 API, and AI-agent control over MCP.</p>
@@ -36,8 +36,9 @@ flowchart LR
 - `**Scripts**`: Dependency-free Python helpers for the Cloudways API (`cw.py` plus small CLI tools).
 - `**Notebooks**`: A Jupyter quickstart for exploring the API interactively.
 - `**GUIDE.md**`: Everything above in one long file.
-- `**index.html**`: The same guide as a polished, self-contained web page (dark mode, copy buttons). Host it anywhere, e.g. GitHub Pages.
-- `**tools/build.py**`: Regenerates `GUIDE.md` and `index.html` from the tutorials.
+- `**site/index.html**`: The same guide as a polished, self-contained web page (dark mode, copy buttons). This is what gets deployed.
+- `**.do/app.yaml**`: DigitalOcean App Platform spec for hosting the page.
+- `**tools/build.py**`: Regenerates `GUIDE.md` and `site/index.html` from the tutorials.
 
 ## Get started
 
@@ -79,7 +80,24 @@ Ask in the Cloudways community, or contact support 24/7 through the platform's c
 
 ## Contributing
 
-Corrections are welcome, especially anything marked **(verify)** that you've confirmed. Keep examples runnable and keep secrets out of commits. After editing a tutorial, run `pip install markdown && python3 tools/build.py` to refresh `GUIDE.md` and `index.html`.
+Corrections are welcome, especially anything marked **(verify)** that you've confirmed. Keep examples runnable and keep secrets out of commits. After editing a tutorial, run `pip install markdown && python3 tools/build.py` to refresh `GUIDE.md` and `site/index.html`.
+
+## Host it on DigitalOcean
+
+The guide is a static page, so it fits App Platform's static-site component. DigitalOcean's [free tier](https://docs.digitalocean.com/products/app-platform/details/pricing/#free-tier) covers up to three apps made only of static sites, with 1 GiB of outbound data per app (extra transfer is $0.02 per GiB). Check the pricing page for current terms.
+
+1. Push this repo to GitHub.
+2. In `.do/app.yaml`, replace `YOUR_GITHUB_USER` with your GitHub username.
+3. Open the [Apps page](https://cloud.digitalocean.com/apps), click **Create App**, choose **GitHub**, and select this repo and the `main` branch. Set the source directory to `/site`.
+4. Confirm the component type is **Static Site**, review the plan summary (it should show the free tier), and launch.
+
+Or from the terminal, with [`doctl`](https://docs.digitalocean.com/reference/doctl/how-to/install/) authenticated and GitHub connected to your DigitalOcean account:
+
+```bash
+doctl apps create --spec .do/app.yaml
+```
+
+Pushes to `main` redeploy automatically. Run `python3 tools/build.py` and commit `site/index.html` after editing tutorials. To use your own domain, add it under the app's **Settings → Domains**.
 
 ## Safety notes for hackers
 
@@ -363,7 +381,7 @@ The Cloudways **MCP server** exposes 240+ tools (servers, apps, backups, Git, DN
 
 ## Client configs
 
-**Claude Code**
+### Claude Code
 
 ```bash
 claude mcp add --transport http \
@@ -374,7 +392,9 @@ claude mcp add --transport http \
 claude mcp list
 ```
 
-**Claude Desktop** (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS). Uses the `mcp-remote` bridge. No spaces after the colon in `--header` values:
+### Claude Desktop
+
+Config file on macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`. Uses the `mcp-remote` bridge. No spaces after the colon in `--header` values:
 
 ```json
 {
@@ -394,7 +414,9 @@ claude mcp list
 
 Fully quit and reopen Claude Desktop afterward.
 
-**Cursor** (`~/.cursor/mcp.json`)
+### Cursor
+
+Config file: `~/.cursor/mcp.json`
 
 ```json
 {
@@ -410,7 +432,9 @@ Fully quit and reopen Claude Desktop afterward.
 }
 ```
 
-**VS Code** (`mcp.json`; note `servers`, not `mcpServers`, and `type: http`)
+### VS Code
+
+Note `servers` (not `mcpServers`) and `type: http`:
 
 ```json
 {
@@ -428,7 +452,9 @@ Fully quit and reopen Claude Desktop afterward.
 }
 ```
 
-**Gemini CLI** uses `httpUrl`; **Codex** uses TOML (`[mcp_servers.cloudways]` with `http_headers`). See the [official setup article](https://support.cloudways.com/en/articles/14654372-how-to-use-cloudways-mcp-server-for-ai-based-server-management) for those.
+### Gemini CLI and Codex
+
+Gemini CLI uses `httpUrl`; Codex uses TOML (`[mcp_servers.cloudways]` with `http_headers`). See the [official setup article](https://support.cloudways.com/en/articles/14654372-how-to-use-cloudways-mcp-server-for-ai-based-server-management) for those.
 
 ## Verify
 

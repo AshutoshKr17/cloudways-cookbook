@@ -24,7 +24,7 @@ The Cloudways **MCP server** exposes 240+ tools (servers, apps, backups, Git, DN
 
 ## Client configs
 
-**Claude Code**
+### Claude Code
 
 ```bash
 claude mcp add --transport http \
@@ -35,7 +35,9 @@ claude mcp add --transport http \
 claude mcp list
 ```
 
-**Claude Desktop** (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS). Uses the `mcp-remote` bridge. No spaces after the colon in `--header` values:
+### Claude Desktop
+
+Config file on macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`. Uses the `mcp-remote` bridge. No spaces after the colon in `--header` values:
 
 ```json
 {
@@ -55,7 +57,9 @@ claude mcp list
 
 Fully quit and reopen Claude Desktop afterward.
 
-**Cursor** (`~/.cursor/mcp.json`)
+### Cursor
+
+Config file: `~/.cursor/mcp.json`
 
 ```json
 {
@@ -71,7 +75,9 @@ Fully quit and reopen Claude Desktop afterward.
 }
 ```
 
-**VS Code** (`mcp.json`; note `servers`, not `mcpServers`, and `type: http`)
+### VS Code
+
+Note `servers` (not `mcpServers`) and `type: http`:
 
 ```json
 {
@@ -89,7 +95,9 @@ Fully quit and reopen Claude Desktop afterward.
 }
 ```
 
-**Gemini CLI** uses `httpUrl`; **Codex** uses TOML (`[mcp_servers.cloudways]` with `http_headers`). See the [official setup article](https://support.cloudways.com/en/articles/14654372-how-to-use-cloudways-mcp-server-for-ai-based-server-management) for those.
+### Gemini CLI and Codex
+
+Gemini CLI uses `httpUrl`; Codex uses TOML (`[mcp_servers.cloudways]` with `http_headers`). See the [official setup article](https://support.cloudways.com/en/articles/14654372-how-to-use-cloudways-mcp-server-for-ai-based-server-management) for those.
 
 ## Verify
 
