@@ -320,7 +320,7 @@ footer h2{font:400 clamp(44px,9vw,120px)/.95 var(--serif);letter-spacing:-.04em;
 
 <main>
 <div class="c-wide hero"><p class="kicker">A field guide, updated @@UPDATED@@</p>
-<h1>Shipping on <em>Cloudways</em>, minus the guesswork.</h1>
+<h1>Shipping on <em>Cloudways</em>.</h1>
 <p class="lede">Launch a server, deploy with Git, automate with the v2 API, and hand the boring parts to an AI agent. Written for developers who learn by doing.</p>
 <div class="cta"><a class="btn" href="#t1">Start the walkthrough @@ARROW@@</a><a class="link" href="#t3">Skip to the API</a></div>
 <dl class="meta"><div><dt>Level</dt><dd>Comfortable with a CLI</dd></div><div><dt>API</dt><dd>v2, Bearer tokens</dd></div><div><dt>Agents</dt><dd>MCP server</dd></div><div><dt>Time</dt><dd>About 80 minutes</dd></div></dl></div>
