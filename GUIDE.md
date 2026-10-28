@@ -123,13 +123,15 @@ Pushes to `main` redeploy automatically. Run `python3 tools/build.py` and commit
 
 Cloudways offers a **3-day Flexible trial with no credit card**. To keep your server afterward you must add a card (a small temporary verification charge, reversed automatically, may appear).
 
+**Hackathon paths:** sign up with the shared promo code. Without a card you can trial Flexible/Autonomous on a 2 GB or 4 GB server, or Velocity Starter (2 GB). Add a card if you want the **$20 credits**.
+
 1. Sign up at [platform.cloudways.com](https://platform.cloudways.com/signup) and log in.
 2. In the left menu choose **Cloudways Flexible**, then **Get Started**, then **3-days free trial**.
 3. Pick your app, server, and project names.
-4. Choose a provider, server size, and location.
+4. Choose a provider, server size (2 GB or 4 GB for the no-card trial), and location.
 5. Click **Launch Now**.
 
-> **Hackathon tip:** DigitalOcean with the smallest size is the cheapest way to experiment. Pick the region closest to your judges or users.
+> **Hackathon tip:** DigitalOcean at 2 GB is a solid default for the no-card trial. Pick the region closest to your judges or users.
 
 Provisioning takes a few minutes. The dashboard shows progress.
 
@@ -232,16 +234,16 @@ php artisan migrate --force
 
 Get the database host, name, user, and password from **Application → Access Details**.
 
-## D. Node.js with Cloudways Velocity (public preview)
+## D. Node.js with Cloudways Velocity
 
-**Cloudways Velocity** is managed Node.js hosting, currently labelled **Public Preview**. Per the [Velocity page](https://www.cloudways.com/en/velocity.php) (checked Oct 21, 2026):
+**Cloudways Velocity** is managed Node.js hosting, now **Generally Available**. Per the [Velocity page](https://www.cloudways.com/en/velocity.php) (checked Oct 28, 2026):
 
 - Connect a GitHub, GitLab, or Bitbucket repo; Velocity detects the framework and sets build and start commands.
 - Presets for Next.js, Remix, React, Astro, Nuxt, Svelte, Vite, Express, Fastify, Angular, and n8n. Node.js LTS 22.x and 24.x, selectable per app.
 - PostgreSQL can be provisioned from the dashboard.
-- Flat monthly plans on persistent servers (no cold starts), starting at $20/month; Starter and Professional include a 3-day free trial.
+- Flat monthly plans on persistent servers (no cold starts), starting at $20/month; Starter (2 GB) and Professional (4 GB) include a 3-day free trial.
 
-Pricing and features change during previews, so confirm on the page. Starter templates live at [github.com/CloudwaysbyDO](https://github.com/CloudwaysbyDO/). Velocity is separate from the Flexible (PHP-centric) servers used in the other sections.
+Starter templates live at [github.com/CloudwaysbyDO](https://github.com/CloudwaysbyDO/). Velocity is separate from the Flexible (PHP-centric) servers used in the other sections.
 
 ## Troubleshooting
 

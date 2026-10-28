@@ -54,16 +54,16 @@ php artisan migrate --force
 
 Get the database host, name, user, and password from **Application → Access Details**.
 
-## D. Node.js with Cloudways Velocity (public preview)
+## D. Node.js with Cloudways Velocity
 
-**Cloudways Velocity** is managed Node.js hosting, currently labelled **Public Preview**. Per the [Velocity page](https://www.cloudways.com/en/velocity.php) (checked Oct 21, 2026):
+**Cloudways Velocity** is managed Node.js hosting, now **Generally Available**. Per the [Velocity page](https://www.cloudways.com/en/velocity.php) (checked Oct 28, 2026):
 
 - Connect a GitHub, GitLab, or Bitbucket repo; Velocity detects the framework and sets build and start commands.
 - Presets for Next.js, Remix, React, Astro, Nuxt, Svelte, Vite, Express, Fastify, Angular, and n8n. Node.js LTS 22.x and 24.x, selectable per app.
 - PostgreSQL can be provisioned from the dashboard.
-- Flat monthly plans on persistent servers (no cold starts), starting at $20/month; Starter and Professional include a 3-day free trial.
+- Flat monthly plans on persistent servers (no cold starts), starting at $20/month; Starter (2 GB) and Professional (4 GB) include a 3-day free trial.
 
-Pricing and features change during previews, so confirm on the page. Starter templates live at [github.com/CloudwaysbyDO](https://github.com/CloudwaysbyDO/). Velocity is separate from the Flexible (PHP-centric) servers used in the other sections.
+Starter templates live at [github.com/CloudwaysbyDO](https://github.com/CloudwaysbyDO/). Velocity is separate from the Flexible (PHP-centric) servers used in the other sections.
 
 ## Troubleshooting
 

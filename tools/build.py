@@ -16,7 +16,7 @@ import markdown
 
 ROOT = Path(__file__).resolve().parent.parent
 REPO_URL = os.environ.get("REPO_URL", "").rstrip("/")
-UPDATED = "October 21, 2026"
+UPDATED = "October 28, 2026"
 
 # (dir, title, description, minutes, short nav label)
 TUTORIALS = [
@@ -231,13 +231,20 @@ nav.menu a:hover{color:var(--ink)}nav.menu a:hover::after,nav.menu a.on::after{t
 .meta{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:72px}
 .meta div{padding:18px 20px 18px 0}.meta div+div{padding-left:20px;border-left:1px solid var(--line)}
 .meta dt{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin:0 0 4px}.meta dd{margin:0;font-weight:600;font-size:15px}
-/* changed */
+/* offer + changed */
 .sec-label{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:0 0 22px}
+.offer{padding:56px 0 12px}
+.offer-lede{margin:0 0 28px;max-width:40em;color:var(--mut);font-size:17px;line-height:1.65}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--ink)}
+.two article{padding:22px 28px 8px 0}.two article+article{padding-left:28px;border-left:1px solid var(--line)}
+.two small,.three small{font:500 11px var(--mono);color:var(--acc);letter-spacing:.1em}
+.two h3,.three h3{font:400 24px/1.2 var(--serif);letter-spacing:-.015em;margin:8px 0 10px}
+.two p,.three p{margin:0;color:var(--mut);font-size:15px;line-height:1.65}
+.two ul{margin:12px 0 0;padding-left:18px;color:var(--mut);font-size:15px;line-height:1.65}
+.two li{margin:6px 0}.two li::marker{color:var(--acc)}
 .changed{padding:88px 0 12px}
 .three{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--ink)}
 .three article{padding:22px 28px 8px 0}.three article+article{padding-left:28px;border-left:1px solid var(--line)}
-.three small{font:500 11px var(--mono);color:var(--acc);letter-spacing:.1em}
-.three h3{font:400 24px/1.2 var(--serif);letter-spacing:-.015em;margin:8px 0 10px}.three p{margin:0;color:var(--mut);font-size:15px;line-height:1.65}
 /* index */
 .index{padding:88px 0 40px}
 .irow{display:grid;grid-template-columns:56px minmax(180px,1.1fr) 2fr 70px 24px;gap:20px;align-items:baseline;padding:26px 0;border-top:1px solid var(--line);text-decoration:none;position:relative;transition:padding .35s cubic-bezier(.2,.7,.2,1)}
@@ -301,7 +308,7 @@ footer h2{font:400 clamp(44px,9vw,120px)/.95 var(--serif);letter-spacing:-.04em;
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}.reveal.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{animation:none!important}}
 @media(max-width:860px){.bar{padding:0 16px;gap:10px}.ext{display:none}.mark span{display:none}.c-wide{padding:0 20px}.hero{padding:56px 0 20px}.meta{grid-template-columns:1fr 1fr}.meta div:nth-child(3){border-left:0;padding-left:0}.meta div:nth-child(n+3){border-top:1px solid var(--line)}
-.three{grid-template-columns:1fr}.three article+article{border-left:0;padding-left:0;border-top:1px solid var(--line);margin-top:16px;padding-top:22px}
+.two,.three{grid-template-columns:1fr}.two article+article,.three article+article{border-left:0;padding-left:0;border-top:1px solid var(--line);margin-top:16px;padding-top:22px}
 .irow{grid-template-columns:36px 1fr 20px;row-gap:6px}.id{grid-column:2/3;grid-row:2}.im{display:none}.ia{grid-row:1;grid-column:3}
 .th{flex-direction:column;align-items:flex-start;gap:14px}.pager{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}}
 </style></head><body id="top">
@@ -318,8 +325,21 @@ footer h2{font:400 clamp(44px,9vw,120px)/.95 var(--serif);letter-spacing:-.04em;
 <div class="cta"><a class="btn" href="#t1">Start the walkthrough @@ARROW@@</a><a class="link" href="#t3">Skip to the API</a></div>
 <dl class="meta"><div><dt>Level</dt><dd>Comfortable with a CLI</dd></div><div><dt>API</dt><dd>v2, Bearer tokens</dd></div><div><dt>Agents</dt><dd>MCP server</dd></div><div><dt>Time</dt><dd>About 80 minutes</dd></div></dl></div>
 
+<div class="c-wide offer reveal"><p class="sec-label">Hackathon signup</p>
+<p class="offer-lede">We'll share a promo code with all hackers&mdash;use it when you sign up. From there you have two paths:</p>
+<div class="two">
+<article><small>NO CARD</small><h3>Trial only</h3>
+<p>Skip the credit card and use the platform on trial:</p>
+<ul>
+<li><strong>Flexible</strong> or <strong>Autonomous</strong>: 2&nbsp;GB or 4&nbsp;GB server</li>
+<li><strong>Velocity</strong>: Starter pack (2&nbsp;GB server)</li>
+</ul></article>
+<article><small>$20 CREDITS</small><h3>Add a card</h3>
+<p>To unlock the <strong>$20 worth of credits</strong>, add your credit card details after signup, then use the platform as usual.</p></article>
+</div></div>
+
 <div class="c-wide changed"><p class="sec-label">What changed in 2026</p><div class="three">
-<article><small>AUTH</small><h3>Tokens replace API keys</h3><p>The email and API key flow was scheduled to end on Oct 15, 2026. Send an Access Token as a Bearer header instead.</p></article>
+<article><small>AUTH</small><h3>Tokens replace API keys</h3><p>The email and API key flow ended on Oct 15, 2026. Send an Access Token as a Bearer header instead.</p></article>
 <article><small>VERSION</small><h3>v2 is the current API</h3><p>The base URL is <code>api.cloudways.com/api/v2</code>. v1 is sunset, though some help articles still show it.</p></article>
 <article><small>ACCESS</small><h3>Owners only</h3><p>Only the primary account owner can create tokens. Team members can't, so plan who holds the keys.</p></article></div></div>
 
