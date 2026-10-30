@@ -16,7 +16,7 @@ import markdown
 
 ROOT = Path(__file__).resolve().parent.parent
 REPO_URL = os.environ.get("REPO_URL", "").rstrip("/")
-UPDATED = "October 28, 2026"
+UPDATED = "October 30, 2026"
 
 # (dir, title, description, minutes, short nav label)
 TUTORIALS = [
@@ -326,7 +326,7 @@ footer h2{font:400 clamp(44px,9vw,120px)/.95 var(--serif);letter-spacing:-.04em;
 <dl class="meta"><div><dt>Level</dt><dd>Comfortable with a CLI</dd></div><div><dt>API</dt><dd>v2, Bearer tokens</dd></div><div><dt>Agents</dt><dd>MCP server</dd></div><div><dt>Time</dt><dd>About 80 minutes</dd></div></dl></div>
 
 <div class="c-wide offer reveal"><p class="sec-label">Hackathon signup</p>
-<p class="offer-lede">We'll share a promo code with all hackers&mdash;use it when you sign up. From there you have two paths:</p>
+<p class="offer-lede">Sign up only through this link so the promo applies: <a href="https://unified.cloudways.com/signup?coupon=CWFEST20" target="_blank" rel="noopener"><strong>unified.cloudways.com/signup?coupon=CWFEST20</strong></a> (code <code>CWFEST20</code>). From there you have two paths:</p>
 <div class="two">
 <article><small>NO CARD</small><h3>Trial only</h3>
 <p>Skip the credit card and use the platform on trial:</p>
@@ -335,8 +335,9 @@ footer h2{font:400 clamp(44px,9vw,120px)/.95 var(--serif);letter-spacing:-.04em;
 <li><strong>Velocity</strong>: Starter pack (2&nbsp;GB server)</li>
 </ul></article>
 <article><small>$20 CREDITS</small><h3>Add a card</h3>
-<p>To unlock the <strong>$20 worth of credits</strong>, add your credit card details after signup, then use the platform as usual.</p></article>
-</div></div>
+<p>To unlock the <strong>$20 worth of credits</strong>, add your credit card details after signup with that link, then use the platform as usual.</p></article>
+</div>
+<p class="offer-lede" style="margin:28px 0 0"><strong>Winners:</strong> every winner gets a Cloudways Velocity <strong>Starter pack for 3 months</strong>.</p></div>
 
 <div class="c-wide changed"><p class="sec-label">What changed in 2026</p><div class="three">
 <article><small>AUTH</small><h3>Tokens replace API keys</h3><p>The email and API key flow ended on Oct 15, 2026. Send an Access Token as a Bearer header instead.</p></article>

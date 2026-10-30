@@ -13,9 +13,9 @@
 
 Cloudways offers a **3-day Flexible trial with no credit card**. To keep your server afterward you must add a card (a small temporary verification charge, reversed automatically, may appear).
 
-**Hackathon paths:** sign up with the shared promo code. Without a card you can trial Flexible/Autonomous on a 2 GB or 4 GB server, or Velocity Starter (2 GB). Add a card if you want the **$20 credits**.
+**Hackathon paths:** sign up only via [unified.cloudways.com/signup?coupon=CWFEST20](https://unified.cloudways.com/signup?coupon=CWFEST20) (promo `CWFEST20`). Without a card you can trial Flexible/Autonomous on a 2 GB or 4 GB server, or Velocity Starter (2 GB). Add a card if you want the **$20 credits**. All winners get a **Velocity Starter pack for 3 months**.
 
-1. Sign up at [platform.cloudways.com](https://platform.cloudways.com/signup) and log in.
+1. Sign up at [unified.cloudways.com/signup?coupon=CWFEST20](https://unified.cloudways.com/signup?coupon=CWFEST20) and log in.
 2. In the left menu choose **Cloudways Flexible**, then **Get Started**, then **3-days free trial**.
 3. Pick your app, server, and project names.
 4. Choose a provider, server size (2 GB or 4 GB for the no-card trial), and location.
